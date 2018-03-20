@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  tingan.dev.env:
+    image: tinganho/tingan.dev.env
+    container_name: tingan.dev.env
+    build:
+      context: .
+      dockerfile: docker/dev.env.dockerfile
+    volumes:
+      - .:/srv/selenium-test-bug
+      - ~/.bash_history:/root/.bash_history
+    ports:
+      - "3000:3000"
+
+  selenium:
+    image: elgalu/selenium
+    container_name: tingan.selenium.frontend.dev
+    volumes:
+      - ~/.bash_history:/root/.bash_history
+      - /dev/shm:/dev/shm
+    privileged: true
+    shm_size: 1g
+    environment:
+      SCREEN_WIDTH: 1280
+      SCREEN_HEIGHT: 1000
+    ports:
+      - 4444:24444
+      - 5901:25900
