@@ -21,37 +21,11 @@ jobs:
     steps:
       - checkout
 
-      - restore_cache:
-          keys:
-            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
-            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-lock-master-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
-            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
-            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
-
       - run:
           name: Install NPM Dependencies
           command: npm -v && npm install
 
       - run:
-          name: Compile TypeScript Files
-          command: tsc --version && tsc
-
-      - run:
-          name: Lint Files
-          command: npm run lint
-
-      - save_cache:
-          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
-
-      - save_cache:
-          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
-          paths:
-            - /usr/local/share/.cache/npm
-            - ~/.npm/_cacache
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+          name: Test
+          command: npm start
+          
