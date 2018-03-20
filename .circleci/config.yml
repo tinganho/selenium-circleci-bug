@@ -24,8 +24,9 @@ jobs:
       - run:
           name: Install NPM Dependencies
           command: npm -v && npm install
-
+      - run:
+          name: Check for readiness
+          command: wget --retry-connrefused --no-check-certificate -T 30  http://localhost:24444/grid/console -O /dev/null
       - run:
           name: Test
           command: npm start
-          
