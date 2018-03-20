@@ -17,7 +17,7 @@ selenium: &selenium
 version: 2
 jobs:
   build:
-    <<: *devenv
+    <<: *selenium
     steps:
       - checkout
 
